@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/niroopreddym/logger/internal/enums"
+	"github.com/niroopreddym/go-llimitedfilesizelog/internal/enums"
 )
 
 //LoggerService implementsthe Ilogger.go service

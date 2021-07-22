@@ -6,8 +6,8 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/golang/glog"
-	"github.com/niroopreddym/logger/internal/enums"
-	"github.com/niroopreddym/logger/internal/services"
+	"github.com/niroopreddym/go-llimitedfilesizelog/internal/enums"
+	"github.com/niroopreddym/go-llimitedfilesizelog/internal/services"
 )
 
 func divide(x int, y int) (int, error) {

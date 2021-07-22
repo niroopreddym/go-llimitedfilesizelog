@@ -1,4 +1,4 @@
-module github.com/niroopreddym/logger
+module github.com/niroopreddym/go-llimitedfilesizelog
 
 go 1.16
 
