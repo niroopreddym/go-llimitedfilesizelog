@@ -6,8 +6,8 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/golang/glog"
-	"github.com/niroopreddym/go-llimitedfilesizelog/internal/enums"
-	"github.com/niroopreddym/go-llimitedfilesizelog/internal/services"
+	"github.com/niroopreddym/go-llimitedfilesizelog/enums"
+	"github.com/niroopreddym/go-llimitedfilesizelog/services"
 )
 
 func divide(x int, y int) (int, error) {
@@ -51,14 +51,4 @@ func main() {
 
 	// No errors!
 	fmt.Println(answer)
-
-}
-
-//Log logs as part of func main
-func Log(message string) {
-	logLocationBaseDir := "C:/Personal/logs"
-	logger := services.NewLoggerService(aws.String("user_from_auth_&_auth"), aws.String("HB"), &logLocationBaseDir, enums.Error)
-	fmt.Println("________")
-	logger.Log("Hi this is a test from func main")
-	fmt.Println("________")
 }
