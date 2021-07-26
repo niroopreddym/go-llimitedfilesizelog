@@ -53,3 +53,12 @@ func main() {
 	fmt.Println(answer)
 
 }
+
+//Log logs as part of func main
+func Log(message string) {
+	logLocationBaseDir := "C:/Personal/logs"
+	logger := services.NewLoggerService(aws.String("user_from_auth_&_auth"), aws.String("HB"), &logLocationBaseDir, enums.Error)
+	fmt.Println("________")
+	logger.Log("Hi this is a test from func main")
+	fmt.Println("________")
+}
