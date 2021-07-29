@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/golang/glog"
 	"github.com/niroopreddym/go-llimitedfilesizelog/enums"
 	"github.com/niroopreddym/go-llimitedfilesizelog/services"
 )
@@ -18,35 +17,17 @@ func divide(x int, y int) (int, error) {
 }
 
 func main() {
-	answer, err := divide(5, 0)
-
 	logLocationBaseDir := "C:/Personal/logs"
-	logger := services.NewLoggerService(aws.String("user_from_auth_&_auth"), aws.String("HB"), &logLocationBaseDir, enums.Error)
-	logger.Log("Hi this is a test")
+	logger := services.NewLoggerService(aws.String("user_from_auth_&_auth"), aws.String("HB"), &logLocationBaseDir)
+	logger.SetLogLevel(enums.Error)
+	logger.Log(enums.Info, "Hi this is Info")
+	logger.Log(enums.Warning, "Hi this is Warning")
+	logger.Log(enums.Error, "Hi this is Error")
+	logger.Log(enums.Fatal, "Hi this is Fatal")
 
+	answer, err := divide(5, 0)
 	if err != nil {
-		// Handle the error based on log levels
-		if glog.V(1) {
-			glog.Warning(err)
-			logger.LogWriter.Write("glog v1 level " + err.Error())
-		}
-
-		if glog.V(2) {
-			glog.Error(err)
-			logger.LogWriter.Write("glog v2 level " + err.Error())
-		}
-
-		if glog.V(3) {
-			glog.Fatal(err)
-			logger.LogWriter.Write("glog v3 level " + err.Error())
-		}
-
-		if glog.V(0) {
-			glog.Info(err)
-			logger.LogWriter.Write("glog v0 level " + err.Error())
-		}
-
-		fmt.Println(err)
+		logger.Log(enums.Error, "error occured while diving 5 with 0 "+err.Error())
 	}
 
 	// No errors!

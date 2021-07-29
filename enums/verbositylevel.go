@@ -4,12 +4,20 @@ package enums
 type VerbosityLevel int
 
 const (
-	//Info is the least verbose level
-	Info VerbosityLevel = iota
-	//Warning is the the second verbose level
+	//Trace is the least log level
+	Trace VerbosityLevel = iota
+	//Debug is teh second log level
+	Debug
+	//Info is the second log level
+	Info
+	//Warning is the the third verbose level
 	Warning
 	//Error verbose level logs evrything above it
 	Error
 	//Fatal verbose level is the master level
 	Fatal
 )
+
+func (v VerbosityLevel) String() string {
+	return [...]string{"Trace", "Debug", "Info", "Warning", "Error", "Fatal"}[v]
+}

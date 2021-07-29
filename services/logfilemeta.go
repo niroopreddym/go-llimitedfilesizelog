@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -37,7 +36,7 @@ type LogFileMeta struct {
 // }
 
 //CreateNewLogFile creates a file inside given log location
-func CreateNewLogFile(dir, serviceName string, verbosityLevel int, truncateDataOnLog bool) (*LogFileMeta, error) {
+func CreateNewLogFile(dir, serviceName string, truncateDataOnLog bool) (*LogFileMeta, error) {
 	instance := LogFileMeta{}
 	parentPath := dir
 
@@ -65,14 +64,12 @@ func CreateNewLogFile(dir, serviceName string, verbosityLevel int, truncateDataO
 			return nil, err
 		}
 
-		instance.errLog = log.New(file, " verbosity_level_"+strconv.Itoa(verbosityLevel)+" ", log.Lshortfile|log.Lmicroseconds|log.Ldate)
 		defer file.Close()
 	}
 
 	instance.LogFile = filePath
 	instance.Lock = sync.Mutex{}
 	instance.FileLimitInKB = 10
-	instance.VerbosityLevel = verbosityLevel
 	fmt.Println("File Created Successfully", filePath)
 
 	return &instance, nil
@@ -88,7 +85,7 @@ func (w *LogFileMeta) Write(message string) {
 		return
 	}
 
-	w.errLog = log.New(file, " verbosity_level_"+strconv.Itoa(w.VerbosityLevel)+" ", log.Lshortfile|log.Lmicroseconds|log.Ldate)
+	w.errLog = log.New(file, "", 0)
 
 	defer func() {
 		w.Lock.Unlock()
@@ -125,7 +122,7 @@ func (w *LogFileMeta) writeOldDataToNewTSFile(fileLimitInBytes int, oldFileHandl
 	directoryPath := filepath.Dir(w.LogFile)
 	fileName := serviceLogNameWithoutExtSliceNotation(filepath.Base(w.LogFile))
 
-	fileMeta, err := CreateNewLogFile(directoryPath, fileName+"_"+time.Now().Format("20060102150405"), w.VerbosityLevel, true)
+	fileMeta, err := CreateNewLogFile(directoryPath, fileName+"_"+time.Now().Format("20060102150405"), true)
 	newFile, err := os.OpenFile(fileMeta.LogFile, os.O_APPEND|os.O_WRONLY, 0600)
 
 	oldData := b[0 : fileLimitInBytes-1]
