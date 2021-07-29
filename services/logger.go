@@ -13,12 +13,14 @@ import (
 //LoggerService implementsthe Ilogger.go service
 type LoggerService struct {
 	LogWriter *LogFileMeta
+	username  string
 }
 
 type messageStructure struct {
 	LogLevel string
 	Time     time.Time
 	Message  string
+	UserName string
 }
 
 //NewLoggerService is the constructor for LoggerService Struct the default verbose level is 3
@@ -36,6 +38,7 @@ func NewLoggerService(userName *string, serviceName *string, logLocationBaseDir 
 
 	return &LoggerService{
 		LogWriter: fileMeta,
+		username:  *userName,
 	}
 }
 
@@ -52,6 +55,7 @@ func (lwService *LoggerService) Log(logLevel enums.VerbosityLevel, message strin
 			LogLevel: logLevel.String(),
 			Time:     time.Now(),
 			Message:  message,
+			UserName: lwService.username,
 		}
 
 		byteData, err := json.Marshal(message)
