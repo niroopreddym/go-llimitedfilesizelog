@@ -12,7 +12,7 @@ import (
 
 //LoggerService implementsthe Ilogger.go service
 type LoggerService struct {
-	LogWriter *LogFileMeta
+	logWriter *LogFileMeta
 	username  string
 }
 
@@ -37,19 +37,19 @@ func NewLoggerService(userName *string, serviceName *string, logLocationBaseDir 
 	}
 
 	return &LoggerService{
-		LogWriter: fileMeta,
+		logWriter: fileMeta,
 		username:  *userName,
 	}
 }
 
 //SetLogLevel sets the custom level apart from default
 func (lwService *LoggerService) SetLogLevel(logLevel enums.VerbosityLevel) {
-	lwService.LogWriter.VerbosityLevel = int(logLevel)
+	lwService.logWriter.VerbosityLevel = int(logLevel)
 }
 
 //Log method logs the data onto the local file
 func (lwService *LoggerService) Log(logLevel enums.VerbosityLevel, message string) {
-	if logLevel >= enums.VerbosityLevel(lwService.LogWriter.VerbosityLevel) {
+	if logLevel >= enums.VerbosityLevel(lwService.logWriter.VerbosityLevel) {
 
 		message := messageStructure{
 			LogLevel: logLevel.String(),
@@ -63,7 +63,7 @@ func (lwService *LoggerService) Log(logLevel enums.VerbosityLevel, message strin
 			fmt.Println("error occured while marshalling the message data")
 		}
 
-		lwService.LogWriter.Write(string(byteData))
+		lwService.logWriter.Write(string(byteData))
 		if logLevel == enums.Fatal {
 			os.Exit(1)
 		}
