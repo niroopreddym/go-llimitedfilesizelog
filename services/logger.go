@@ -3,7 +3,6 @@ package services
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	"strings"
 	"time"
 
@@ -48,7 +47,7 @@ func (lwService *LoggerService) SetLogLevel(logLevel enums.VerbosityLevel) {
 }
 
 //Log method logs the data onto the local file
-func (lwService *LoggerService) Log(logLevel enums.VerbosityLevel, message string) {
+func (lwService *LoggerService) Log(logLevel enums.VerbosityLevel, message string) error {
 	if logLevel >= enums.VerbosityLevel(lwService.logWriter.VerbosityLevel) {
 
 		message := messageStructure{
@@ -61,11 +60,14 @@ func (lwService *LoggerService) Log(logLevel enums.VerbosityLevel, message strin
 		byteData, err := json.Marshal(message)
 		if err != nil {
 			fmt.Println("error occured while marshalling the message data")
+			return err
 		}
 
 		lwService.logWriter.Write(string(byteData))
 		if logLevel == enums.Fatal {
-			os.Exit(1)
+			return fmt.Errorf("Fatal error")
 		}
 	}
+
+	return nil
 }
