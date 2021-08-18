@@ -17,7 +17,7 @@ type LoggerService struct {
 
 type messageStructure struct {
 	LogLevel string
-	Time     time.Time
+	Time     string
 	Message  string
 	UserName string
 }
@@ -52,7 +52,7 @@ func (lwService *LoggerService) Log(logLevel enums.VerbosityLevel, message strin
 
 		message := messageStructure{
 			LogLevel: logLevel.String(),
-			Time:     time.Now(),
+			Time:     time.Now().Format("2006-01-02 15:04:05.000000"),
 			Message:  message,
 			UserName: lwService.username,
 		}
